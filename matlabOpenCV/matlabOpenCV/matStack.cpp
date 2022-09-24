@@ -117,7 +117,7 @@ void matStack::diffOperatorFFT()
 
 // Get multiplication of two cv::Mat. In this case the conjugate of second 
 // Mat will be used. 
-//
+
 void matStack::fftConjugate(cv::Mat fftData, cv::Mat& fftOutput, cv::Mat& fftConj)
 {
 	fft2(fftData, fftOutput, height, width);
