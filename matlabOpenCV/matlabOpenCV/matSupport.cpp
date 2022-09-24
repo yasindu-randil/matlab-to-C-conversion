@@ -21,3 +21,21 @@ void matSupport :: fft2(const cv::Mat in, cv::Mat& complexI, int rows, int cols)
 	merge(planes, 2, complexI);
 	dft(complexI, complexI, cv::DFT_COMPLEX_OUTPUT);
 }
+
+cv::Mat matSupport::converToRealNumbers( cv::Mat img )
+{
+	cv::Mat temp(cv::Size(256, 128), CV_32F, cv::Scalar(0));
+	std::complex<float> tempVal = 0.0;
+	float realVal = 0.0;
+	for (int col = 0; col < img.cols; col++) {
+		for (int row = 0; row < img.rows; row++) {
+			//process pixel:
+			realVal = img.at<std::complex<float> >(row, col).real();
+			temp.at<float>(row, col) = realVal;
+			realVal = 0.0;
+		}
+	}
+
+	return temp;
+}
+

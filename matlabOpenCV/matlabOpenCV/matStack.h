@@ -9,15 +9,22 @@ class matStack : public matSupport
 	private:
 		void initialize();
 		void diffOperatorFFT();
-		void printImageText( std::string, int);
+		void fftConjugate(cv::Mat,  cv::Mat &, cv::Mat & ); 
+		void printImageVectorMat( std::string, int);
+		void printImageMat(std::string, const cv::Mat);
 
 		int width;
 		int height;
 		int frames;
+		int zbei;
+		int siranu;
+		double lamda;
 
 		std::string printFile;
 
 		std::vector<cv::Mat> imgS;
+		cv::Mat frac[180];
+		cv::Mat divide;
 
 	public:
 

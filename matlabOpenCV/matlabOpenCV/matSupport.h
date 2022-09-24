@@ -22,6 +22,8 @@ class matSupport
 		void printTest();
 
 		void fft2(const cv::Mat , cv::Mat& , int , int );
+
+		cv::Mat converToRealNumbers( cv::Mat );
 };
 
 #endif

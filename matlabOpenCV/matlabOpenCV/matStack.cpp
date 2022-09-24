@@ -22,6 +22,12 @@ void matStack::initialize()
 	width = imgS[0].cols;
 	height = imgS[0].rows;
 	frames = imgS.size();
+
+	zbei = 1;
+	siranu = 150;
+	lamda = 0.5;
+
+	divide.convertTo(divide, CV_32F);
 	
 	// Convert to 4 byte floating values 
 	// Get the max value
@@ -41,10 +47,13 @@ void matStack::initialize()
 	{
 		imgS[i] /= tempVal;
 
+		frac[i].convertTo(frac[i], CV_32F);
+		frac[i] = imgS[i] * (siranu / lamda);
+
 	}
 
 
-	printImageText(printFile, 179);
+	printImageVectorMat(printFile, 179);
 
 
 	std::cout << " Max Value from class = " << tempVal << std::endl;
@@ -52,10 +61,70 @@ void matStack::initialize()
 
 void matStack::diffOperatorFFT()
 {
+	float data[3] = { 1, -2, 1 };
+	float data2[3][1] = { {1}, {-2}, { 1} };
+	float dataZtiduzz[3] = { 0 };
+	float data3[2][2][2][2] = { {{1, -1}, {1, -1}}, {{-1, 1}, {-1, 1}} };
+	float data4[2][2] = { {1 ,-1},{-1 ,1} };
+	float data5[2][2][2] = { { {1}, {-1} }, { {-1}, {1} } };
+
+	cv::Mat fftData = cv::Mat(1, 3, CV_32F, data);
+	cv::Mat fftData2 = cv::Mat(3, 1, CV_32F, data2);
+	cv::Mat fftData4 = cv::Mat(2, 2, CV_32F, data4);
+	cv::Mat ztiduzz = cv::Mat(1, 3, CV_32F, dataZtiduzz);
+	cv::Mat ztiduxz = cv::Mat(2, 2, CV_32F, data3);
+	cv::Mat ztiduyz = cv::Mat(2, 2, CV_32F, data5);
+
+	cv::Mat fftOutput, fftConj, fftConjPrev;
+
+	fftConjugate(fftData, fftOutput, fftConj);
+	// deep copy is used, because shallow copy will modify the shared memory
+	fftConjPrev = fftConj.clone();
+
+
+	fftConjugate(fftData2, fftOutput, fftConj);
+	cv::add(fftConj, fftConjPrev, fftConjPrev); 
+
+
+	fftConjugate(ztiduzz, fftOutput, fftConj);
+	fftConj.mul(fftConj * (zbei * zbei));
+	cv::add(fftConj, fftConjPrev, fftConjPrev);
+
+
+	fftConjugate(fftData4, fftOutput, fftConj);
+	fftConj *= 2;
+	cv::add(fftConj, fftConjPrev, fftConjPrev);
+
+
+	fftConjugate(ztiduxz, fftOutput, fftConj);
+	fftConj = fftConj * (zbei) * 2;
+	cv::add(fftConj, fftConjPrev, fftConjPrev);
+
+
+	fftConjugate(ztiduyz, fftOutput, fftConj);
+	fftConj = fftConj * (2 * zbei);
+	cv::add(fftConj, fftConjPrev, fftConjPrev);
+
+	fftConjPrev +=  (siranu / lamda);
+
+	divide = converToRealNumbers(fftConjPrev);
+	printImageMat(printFile, divide);
+
+
+
 
 }
 
-void matStack::printImageText( std::string printfile, int index)
+// Get multiplication of two cv::Mat. In this case the conjugate of second 
+// Mat will be used. 
+//
+void matStack::fftConjugate(cv::Mat fftData, cv::Mat& fftOutput, cv::Mat& fftConj)
+{
+	fft2(fftData, fftOutput, height, width);
+	cv::mulSpectrums(fftOutput, fftOutput, fftConj, 0, true);
+}
+
+void matStack::printImageVectorMat( std::string printfile, int index)
 {
 	std::ofstream myfile;
 	myfile.open(printfile, std::ios::out | std::ios::binary);
@@ -65,17 +134,18 @@ void matStack::printImageText( std::string printfile, int index)
 
 
 
-	//}
-	//float tempVal = 0.0;
-	//for (int col = 0; col < width; col++) {
-	//	for (int row = 0; row < height; row++) {
-	//		//process pixel:
-	//		tempVal = imgS[index].at<float>(row, col);
-	//		//std::cout << tempVal << std::endl;
-	//		myfile << std::fixed << std::setprecision(4) << tempVal << std::endl;
-	//		tempVal = 0.0;
-	//	}
-	//}
+	myfile.close();
+}
+
+void matStack::printImageMat(std::string printfile, const cv::Mat img)
+{
+	std::ofstream myfile;
+	myfile.open(printfile, std::ios::out | std::ios::binary);
+
+
+	myfile << img << std::endl;
 
 	myfile.close();
 }
+
+
