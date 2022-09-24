@@ -21,6 +21,7 @@ class matStack : public matSupport
 		void printImageVectorMat( std::string, int);
 		void printImageMat(std::string, const cv::Mat);
 
+		//! Variables
 		int width;
 		int height;
 		int frames;
