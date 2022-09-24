@@ -1,4 +1,11 @@
 
+
+
+
+/*
+	Test 
+*/
+
 #ifndef MATSTACK_H
 #define MATSTACK_H
 
@@ -7,6 +14,7 @@
 class matStack : public matSupport
 {
 	private:
+		//! Initialize 
 		void initialize();
 		void diffOperatorFFT();
 		void fftConjugate(cv::Mat,  cv::Mat &, cv::Mat & ); 
