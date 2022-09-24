@@ -18,5 +18,19 @@
     <ClCompile Include="matlabOpenCV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="matStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="matStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matSupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
