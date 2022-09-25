@@ -19,7 +19,6 @@ class matStack : public matSupport
 		void diffOperatorFFT();
 		void fftConjugate(cv::Mat,  cv::Mat &, cv::Mat & ); 
 		void printImageVectorMat( std::string, int);
-		void printImageMat(std::string, const cv::Mat);
 
 		//! Variables
 		int width;
@@ -38,7 +37,11 @@ class matStack : public matSupport
 	public:
 
 		matStack(std::string, std::string );
+
+		std::vector<cv::Mat> getInitialMatVector();
 		
+		void printImageMat(std::string, const cv::Mat);
+
 };
 
 #endif

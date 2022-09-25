@@ -14,6 +14,8 @@ matStack::matStack( std::string filename, std::string printfile):
 
 }
 
+
+
 void matStack::initialize()
 {
 	int tempVal = 0;
@@ -148,4 +150,8 @@ void matStack::printImageMat(std::string printfile, const cv::Mat img)
 	myfile.close();
 }
 
+std::vector<cv::Mat> matStack::getInitialMatVector()
+{
+	return imgS;
+}
 

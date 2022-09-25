@@ -1,7 +1,7 @@
 // matlabOpenCV.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "matStack.h"
+#include "matDifferentiate.h"
 
 
 
@@ -21,7 +21,7 @@ int main()
     std::string fileName = "C:\\Users\\yryas\\OneDrive\\Desktop\\HessianSIM\\Hessian_SIM\\raw-data\\Actin_97hz_7ms exposure raw data.tif";
 
     std::vector<cv::Mat> img;
-	matStack obj(fileName, printPath2);
+	matDifferentiate obj(fileName, printPath2);
     // Read the mulit framed imaged into a  vector of cv::Mat
     imreadmulti(fileName, img, cv::IMREAD_UNCHANGED);
 
@@ -179,7 +179,7 @@ int main()
 		cv::Mat tempFrac[2], tempFracFinal, divide;
 		divide.convertTo(divide, CV_32F);
 		divide = converToRealNumbers(fftConj6);
-		printTxt(divide, myfile);
+		printTxt(img[179], myfile);
 
 
 

@@ -24,12 +24,24 @@
     <ClCompile Include="matSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="matDifferentiator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matDiff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="matSupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matDifferentiate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matDiff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
