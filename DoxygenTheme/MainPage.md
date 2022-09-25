@@ -1,7 +1,7 @@
-FarmLand {#mainpage}
+HessianSIM Algorithm {#mainpage}
 =======================
 
- \image html Farm2D.jpg
+ \image html hessian_home.jpg
 
 ### Landing page is under construction ###
 
