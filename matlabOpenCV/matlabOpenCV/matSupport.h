@@ -1,3 +1,16 @@
+/**
+ matSupport works as the base calss which contains all the basic supporting 
+  functions for this program. 
+
+  Functions related to:
+		Fast fourier Transformatiom
+		Basic print functions for cv::Mat
+		Functions for retriving Complex or Real part of a cv::Mat
+
+  This class is designed to add more supporting sunctions so the derived classes
+  can be more
+*/
+
 #ifndef MATSUPPORT_H
 #define MATSUPPORT_H
 
