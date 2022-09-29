@@ -2,10 +2,10 @@
 /* matSupport works as the base calss which contains all the basic supporting 
 /*  functions for this program. 
 /*
-//!  Functions related to:
-//!		Fast fourier Transformatiom,
-//!		Basic print functions for cv::Mat,
-//!		Functions for retriving Complex or Real part of a cv::Mat.
+/*  Functions related to:
+/*		Fast fourier Transformatiom,
+/*		Basic print functions for cv::Mat,
+/*		Functions for retriving Complex or Real part of a cv::Mat.
 /*
 /*  This class is designed to add more supporting functions so the derived classes
 /*  can be more efficient and user-friendly.
@@ -37,6 +37,8 @@ class matSupport
 		void fft2(const cv::Mat , cv::Mat& , int , int );
 
 		cv::Mat converToRealNumbers( cv::Mat );
+
+	
 };
 
 #endif

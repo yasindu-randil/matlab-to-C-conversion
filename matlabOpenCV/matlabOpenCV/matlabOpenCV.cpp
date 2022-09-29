@@ -6,6 +6,7 @@
 
 
 void printTxt(cv::Mat img, std::ofstream& myfile);
+void printTxtStack(cv::Mat img[], std::ofstream& myfile);
 void fft2(const cv::Mat in, cv::Mat& complexI, int rows, int cols);
 cv::Mat converToRealNumbers(cv::Mat img);
 
@@ -171,7 +172,7 @@ int main()
 			frac[i].convertTo(frac[i], CV_32F);
 			frac[i] = img[i] * (siranu / lamda);
 		}
-		//printTxt(frac[179], myfile);
+
 
 
 	// End of Second portion
@@ -179,9 +180,46 @@ int main()
 		cv::Mat tempFrac[2], tempFracFinal, divide;
 		divide.convertTo(divide, CV_32F);
 		divide = converToRealNumbers(fftConj6);
-		printTxt(img[179], myfile);
 
 
+		//******************** ITERATION ***************************
+		cv::Mat x[180], u[180], signd[180], d[180];
+		cv::Mat b1[180], b2[180], b3[180], b4[180], b5[180], b6[180];
+
+		for (int i = 0; i < numberofFrames; i++)
+		{
+			u[i].convertTo(u[i], CV_32F);
+			signd[i].convertTo(signd[i], CV_32F);
+			d[i].convertTo(d[i], CV_32F);
+
+			b1[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			b2[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			b3[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			b4[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			b5[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			b6[i] = { cv::Mat::zeros(height, width, CV_32F) };
+			x[i] = { cv::Mat::zeros(height, width, CV_32F) };
+		}
+
+		if (true)
+		{
+			// frac = fftn(frac);
+			for (int i = 0; i < numberofFrames; i++)
+			{
+				fft2(frac[i], frac[i], height, width);
+			}
+
+
+			for (int j = 0; j < numberofFrames; j++)
+			{
+				//x = real(ifftn(frac./(siranu/lamda)));
+				//frac[j] = frac[j] / (siranu / lamda);
+				cv::idft(frac[j] / (siranu / lamda), x[j], cv::DFT_SCALE | cv::DFT_COMPLEX_OUTPUT);
+			}
+			printTxt(x[179], myfile);
+		}
+
+		//******************** ITERATION ***************************
 
 	myfile.close();
 
@@ -199,6 +237,18 @@ void printTxt(cv::Mat img, std::ofstream& myfile)
 	//		tempVal = 0.0;
 	//	}
 	//}
+
+	myfile << img << std::endl;
+
+}
+
+void printTxtStack(cv::Mat img[], std::ofstream& myfile)
+{
+	float tempVal = 0.0;
+	for (int i = 0; i < 180; i++)
+	{
+		myfile << img[i] << std::endl;
+	}
 
 	myfile << img << std::endl;
 

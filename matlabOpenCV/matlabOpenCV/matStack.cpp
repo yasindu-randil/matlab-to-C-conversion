@@ -30,6 +30,9 @@ void matStack::initialize()
 	lamda = 0.5;
 
 	divide.convertTo(divide, CV_32F);
+
+	// Prevents re-allocation of the vector as push_back is used.
+	frac.reserve(frames);
 	
 	// Convert to 4 byte floating values 
 	// Get the max value
@@ -49,13 +52,12 @@ void matStack::initialize()
 	{
 		imgS[i] /= tempVal;
 
-		frac[i].convertTo(frac[i], CV_32F);
-		frac[i] = imgS[i] * (siranu / lamda);
+		frac.push_back(imgS[i] * (siranu / lamda));
 
 	}
 
 
-	printImageVectorMat(printFile, 179);
+	//printImageMat(printFile, frac.at(179));
 
 
 	std::cout << " Max Value from class = " << tempVal << std::endl;
@@ -110,7 +112,6 @@ void matStack::diffOperatorFFT()
 	fftConjPrev +=  (siranu / lamda);
 
 	divide = converToRealNumbers(fftConjPrev);
-	printImageMat(printFile, divide);
 
 
 
@@ -150,8 +151,21 @@ void matStack::printImageMat(std::string printfile, const cv::Mat img)
 	myfile.close();
 }
 
-std::vector<cv::Mat> matStack::getInitialMatVector()
+void matStack::printImageMatStack(std::string printfile, std::vector<cv::Mat> img)
 {
-	return imgS;
+	std::ofstream myfile;
+	myfile.open(printfile, std::ios::out | std::ios::binary);
+
+	for (int i = 0; i < frames; i++)
+	{
+		myfile << img.at(i) << std::endl;
+	}
+
+	myfile.close();
+}
+
+std::vector<cv::Mat> matStack::getVectorFrac()
+{
+	return frac;
 }
 

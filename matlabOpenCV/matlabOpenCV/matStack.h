@@ -1,9 +1,13 @@
 
-
-
-
+/**
+/*  matStack calculates on the main Image stack ( std::vector< cv::Mat )
+/*  and run fast fourier transformations on the images.
 /*
-	Test 
+/*  Functions:
+/*		Initialize the images vectors, arrays and cv::Mat
+/*		Calculate the FFT and conjugate FFT
+/*		Final output is cv::Mat frac and divide
+/*
 */
 
 #ifndef MATSTACK_H
@@ -21,26 +25,31 @@ class matStack : public matSupport
 		void printImageVectorMat( std::string, int);
 
 		//! Variables
-		int width;
-		int height;
-		int frames;
-		int zbei;
-		int siranu;
-		double lamda;
+
 
 		std::string printFile;
 
 		std::vector<cv::Mat> imgS;
-		cv::Mat frac[180];
+		std::vector<cv::Mat> frac;
+
 		cv::Mat divide;
 
 	public:
 
+		int zbei;
+		int siranu;
+		double lamda;
+
+		int width;
+		int height;
+		int frames;
 		matStack(std::string, std::string );
 
-		std::vector<cv::Mat> getInitialMatVector();
+		std::vector<cv::Mat> getVectorFrac();
 		
 		void printImageMat(std::string, const cv::Mat);
+		
+		void printImageMatStack(std::string, std::vector<cv::Mat> img);
 
 };
 

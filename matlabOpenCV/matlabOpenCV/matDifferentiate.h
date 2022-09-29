@@ -12,7 +12,10 @@ class matDifferentiate : public matStack, matDiff
 
 	private:
 
-		std::vector<cv::Mat> imgS;
+		std::vector<cv::Mat> frac;
+		std::string writePath;
+
+		void iterateMat();
 };
 
 #endif
