@@ -169,3 +169,7 @@ std::vector<cv::Mat> matStack::getVectorFrac()
 	return frac;
 }
 
+std::vector<cv::Mat> matStack::getVectorImg()
+{
+	return imgS;
+}

@@ -9,6 +9,8 @@ void printTxt(cv::Mat img, std::ofstream& myfile);
 void printTxtStack(cv::Mat img[], std::ofstream& myfile);
 void fft2(const cv::Mat in, cv::Mat& complexI, int rows, int cols);
 cv::Mat converToRealNumbers(cv::Mat img);
+cv::Mat backwardDiffFunction(cv::Mat img, int step, int dim, int frameCount);
+cv::Mat forwardDiffFunction(cv::Mat img, int step, int dim, const int framesCount);
 
 int main()
 {
@@ -200,7 +202,7 @@ int main()
 			b6[i] = { cv::Mat::zeros(height, width, CV_32F) };
 			x[i] = { cv::Mat::zeros(height, width, CV_32F) };
 		}
-
+		//100 iterations
 		if (true)
 		{
 			// frac = fftn(frac);
@@ -216,10 +218,64 @@ int main()
 				//frac[j] = frac[j] / (siranu / lamda);
 				cv::idft(frac[j] / (siranu / lamda), x[j], cv::DFT_SCALE | cv::DFT_COMPLEX_OUTPUT);
 			}
-			printTxt(x[179], myfile);
+
+
+			//**************************** Block One *******************************
+			for (int count = 0; count < numberofFrames; count++)
+			{
+				frac[count] = img[count] * (siranu / lamda);
+				u[count] = backwardDiffFunction(forwardDiffFunction(x[count], 1, 1, 180), 1, 1, 180);
+
+				signd[count] = cv::abs(u[count] + b1[count]) - 1 / lamda;
+
+				//// signd=signd.*sign(u+b1);
+				for (int j = 0; j < width; j++) {
+					for (int i = 0; i < height; i++) {
+						if (signd[count].at<float>(i, j) < 0)
+						{
+							signd[count].at<float>(i, j) = 0.0;
+						}
+
+						if ((u[count].at<float>(i, j) + b1[count].at<float>(i, j)) > 1)
+						{
+							signd[count].at<float>(i, j) = signd[count].at<float>(i, j) * 1.0;
+						}
+						else if ((u[count].at<float>(i, j) + b1[count].at<float>(i, j)) == 0)
+						{
+							signd[count].at<float>(i, j) = 0.0;
+						}
+						else if ((u[count].at<float>(i, j) + b1[count].at<float>(i, j)) < 1)
+						{
+							signd[count].at<float>(i, j) = signd[count].at<float>(i, j) * (-1);
+						}
+					}
+				}
+
+				d[count] = signd[count];
+				// b1 = b1+(u-d);
+				b1[count] = b1[count] + (u[count] - d[count]);
+
+				//frac = frac+back_diff(forward_diff(d-b1,1,1),1,1);
+				frac[count] = frac[count] + backwardDiffFunction(forwardDiffFunction(d[count] - b1[count], 1, 1, 180), 1, 1, 180);
+
+			}
+			printTxtStack(frac, myfile);
+			//**************************** END - Block One *******************************
+
 		}
 
-		//******************** ITERATION ***************************
+		//******************** END - ITERATION ***************************
+
+		
+
+			
+			
+
+
+
+
+
+		//**************************** End of Block One *******************************
 
 	myfile.close();
 
@@ -282,4 +338,274 @@ cv::Mat converToRealNumbers(cv::Mat img)
 	return temp;
 }
 
+cv::Mat backwardDiffFunction(cv::Mat img, int step, int dim, int frameCount)
+{
+	int width = img.cols;
+	int height = img.rows;
+	int numberOfFrames = frameCount;
+	int cols = width;
+	int rows = height;
+	int rowStart = 0;
+	int colStart = 0;
+	int depth = 0;
+
+	const int frames = frameCount + 1;
+	cv::Mat temp1[2];
+	cv::Mat temp2[2];
+	cv::Mat out;
+
+	//Initialize the Mat
+	temp1[0].convertTo(temp1[0], CV_32F);
+	temp1[0] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	temp1[1].convertTo(temp1[1], CV_32F);
+	temp1[1] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	out.convertTo(out, CV_32F);
+	out = { cv::Mat::zeros(rows, cols , CV_32F) };
+
+	temp2[0].convertTo(temp2[0], CV_32F);
+	temp2[0] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	temp2[1].convertTo(temp2[1], CV_32F);
+	temp2[1] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	// temp1(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3))=data;
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			temp1[depth].at<float>(i, j) = img.at<float>(i, j);
+		}
+	}
+
+	// temp2(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3))=data;
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			temp2[depth].at<float>(i, j) = img.at<float>(i, j);
+		}
+	}
+
+	if (dim == 1)
+	{
+		height = height + 1;
+		rowStart++;
+	}
+	else if (dim == 2)
+	{
+		width = width + 1;
+		colStart++;
+	}
+	else if (dim == 3)
+	{
+		depth++;
+	}
+	// temp2(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3))=data;
+	for (int j = colStart; j < width; j++) {
+		for (int i = rowStart; i < height; i++) {
+			if (dim == 1)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i - 1, j);
+			}
+			else if (dim == 2)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i, j - 1);
+			}
+			else if (dim == 3)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i, j);
+			}
+		}
+	}
+
+	temp1[depth] = (temp1[depth] - temp2[depth]) / step;
+	if (dim == 3)
+	{
+		temp1[depth - 1] = (temp1[depth - 1] - temp2[depth - 1]) / step;
+	}
+
+	if (dim == 1)
+	{
+		height = height - 1;
+	}
+	else if (dim == 2)
+	{
+		width = width - 1;
+	}
+	else if (dim == 3)
+	{
+		depth--;
+	}
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			out.at<float>(i, j) = temp1[depth].at<float>(i, j);
+		}
+	}
+
+	// out = temp2[0];
+	return out;
+}
+
+cv::Mat forwardDiffFunction(cv::Mat img, int step, int dim, const int framesCount)
+{
+
+
+
+	int width = img.cols;
+	int height = img.rows;
+	int numberOfFrames = framesCount;
+	int cols = width;
+	int rows = height;
+	int rowStart = 0;
+	int colStart = 0;
+	int depth = 0;
+
+	if (dim == 1)
+	{
+		height = height + 1;
+		rowStart++;
+	}
+	else if (dim == 2)
+	{
+		width = width + 1;
+		colStart++;
+	}
+	else if (dim == 3)
+	{
+		depth++;
+	}
+
+	const int frames = framesCount + 1;
+	cv::Mat temp1[2];
+	cv::Mat temp2[2];
+	cv::Mat out;
+
+	//Initialize the Mat
+	temp1[0].convertTo(temp1[0], CV_32F);
+	temp1[0] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	temp1[1].convertTo(temp1[1], CV_32F);
+	temp1[1] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	out.convertTo(out, CV_32F);
+	out = { cv::Mat::zeros(rows, cols , CV_32F) };
+
+	temp2[0].convertTo(temp2[0], CV_32F);
+	temp2[0] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	temp2[1].convertTo(temp2[1], CV_32F);
+	temp2[1] = { cv::Mat::zeros(rows + 1, cols + 1, CV_32F) };
+
+	// temp1(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3))=data;
+	for (int j = colStart; j < width; j++) {
+		for (int i = rowStart; i < height; i++) {
+			if (dim == 1)
+			{
+				temp1[depth].at<float>(i, j) = img.at<float>(i - 1, j);
+			}
+			else if (dim == 2)
+			{
+				temp1[depth].at<float>(i, j) = img.at<float>(i, j - 1);
+			}
+			else if (dim == 3)
+			{
+				temp1[depth].at<float>(i, j) = img.at<float>(i, j);
+			}
+		}
+	}
+
+	// temp2(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3))=data;
+	for (int j = colStart; j < width; j++) {
+		for (int i = rowStart; i < height; i++) {
+
+			if (dim == 1)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i - 1, j);
+			}
+			else if (dim == 2)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i, j - 1);
+			}
+			else if (dim == 3)
+			{
+				temp2[depth].at<float>(i, j) = img.at<float>(i, j);
+			}
+		}
+	}
+
+	if (dim == 1)
+	{
+		height = height - 1;
+		// rowStart++;
+	}
+	else if (dim == 2)
+	{
+		width = width - 1;
+		//colStart++;
+	}
+	else if (dim == 3)
+	{
+		depth--;
+	}
+
+	//temp2(1:SIZE(1),1:SIZE(2),1:SIZE(3))=data;
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			temp2[depth].at<float>(i, j) = img.at<float>(i, j);
+		}
+	}
+
+	temp1[depth] = (temp1[depth] - temp2[depth]) / step;
+
+	if (dim == 3)
+	{
+		temp1[depth + 1] = (temp1[depth + 1] - temp2[depth + 1]) / step;
+	}
+
+	if (dim == 1)
+	{
+		height = height + 1;
+		// rowStart++;
+	}
+	else if (dim == 2)
+	{
+		width = width + 1;
+		//colStart++;
+	}
+	else if (dim == 3)
+	{
+		depth++;
+	}
+
+	// out = temp1(position(1):SIZE(1),position(2):SIZE(2),position(3):SIZE(3)); 
+	for (int j = colStart; j < width; j++) {
+		for (int i = rowStart; i < height; i++) {
+
+			if (dim == 1)
+			{
+				out.at<float>(i - 1, j) = temp1[depth].at<float>(i, j);
+			}
+			else if (dim == 2)
+			{
+				out.at<float>(i, j - 1) = temp1[depth].at<float>(i, j);
+			}
+			else if (dim == 3)
+			{
+				//std::cout << "Depth " << depth << std::endl;
+				out.at<float>(i, j) = temp1[depth].at<float>(i, j);
+			}
+		}
+	}
+
+	out = out * (-1);
+
+
+
+
+
+	//std::cout << "Forward Diff " << img.rows << " " << temp1[0].rows << " " << temp1[0].size()<< " - " << img.size() << std::endl;
+
+
+	return out;
+
+}
 

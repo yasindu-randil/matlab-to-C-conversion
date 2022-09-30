@@ -9,6 +9,8 @@ class matDiff
 		matDiff();
 
 		cv::Mat forwardDiffFunction(cv::Mat, int, int, const int);
+
+		cv::Mat backwardDiffFunction(cv::Mat, int, int, const int);
 };
 
 #endif

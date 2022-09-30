@@ -46,6 +46,7 @@ class matStack : public matSupport
 		matStack(std::string, std::string );
 
 		std::vector<cv::Mat> getVectorFrac();
+		std::vector<cv::Mat> getVectorImg();
 		
 		void printImageMat(std::string, const cv::Mat);
 		
