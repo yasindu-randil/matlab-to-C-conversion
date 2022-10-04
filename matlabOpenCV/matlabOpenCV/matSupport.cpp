@@ -2,15 +2,18 @@
 
 matSupport::matSupport()
 {
-	std::cout << "Inside Mat Support Constructor" << std::endl;
+
 }
 
 void matSupport::printTest()
 {
-	std::cout << "Inside Mat Support printTest **************************************" << std::endl;
+	std::cout << "Inside Mat Support printTest " << std::endl;
 
 }
 
+/* Calculate Discrete Fourier transformation on received cv::Mat
+/* Use complex output
+*/
 void matSupport :: fft2(const cv::Mat in, cv::Mat& complexI, int rows, int cols) {
 	cv::Mat padded;
 	int m = cv::getOptimalDFTSize(rows);
@@ -22,6 +25,10 @@ void matSupport :: fft2(const cv::Mat in, cv::Mat& complexI, int rows, int cols)
 	dft(complexI, complexI, cv::DFT_COMPLEX_OUTPUT);
 }
 
+
+/* Extract real numbers from cv::Mat.
+/* return the real numbers as a cv::Mat
+*/
 cv::Mat matSupport::converToRealNumbers( cv::Mat img )
 {
 	cv::Mat temp(cv::Size(256, 128), CV_32F, cv::Scalar(0));
@@ -37,6 +44,19 @@ cv::Mat matSupport::converToRealNumbers( cv::Mat img )
 	}
 
 	return temp;
+}
+
+/* Calculate Inverse Discrete Fourier transformation on received cv::Mat
+*/
+void matSupport :: inverseDFT(const cv::Mat in, cv::Mat& complexI, int rows, int cols) {
+	cv::Mat padded;
+	int m = cv::getOptimalDFTSize(rows);
+	int n = cv::getOptimalDFTSize(cols);
+	//copyMakeBorder(in, padded, 0, m - in.rows, 0, n - in.cols, cv::BORDER_CONSTANT, cv::Scalar::all(0));
+	copyMakeBorder(in, padded, 0, m - in.rows, 0, n - in.cols, cv::BORDER_CONSTANT, cv::Scalar::all(0));
+	cv::Mat planes[] = { cv::Mat_<float>(padded), cv::Mat::zeros(padded.size(), CV_32F) };
+	//merge(planes, 2, complexI);
+	dft(complexI, complexI);
 }
 
 

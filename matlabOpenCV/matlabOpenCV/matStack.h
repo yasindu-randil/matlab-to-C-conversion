@@ -25,8 +25,6 @@ class matStack : public matSupport
 		void printImageVectorMat( std::string, int);
 
 		//! Variables
-
-
 		std::string printFile;
 
 		std::vector<cv::Mat> imgS;
@@ -43,6 +41,7 @@ class matStack : public matSupport
 		int width;
 		int height;
 		int frames;
+
 		matStack(std::string, std::string );
 
 		std::vector<cv::Mat> getVectorFrac();

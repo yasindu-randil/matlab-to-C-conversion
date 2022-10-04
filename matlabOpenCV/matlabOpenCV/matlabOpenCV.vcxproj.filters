@@ -24,7 +24,7 @@
     <ClCompile Include="matSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="matDifferentiator.cpp">
+    <ClCompile Include="matDifferentiate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="matDiff.cpp">

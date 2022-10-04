@@ -4,6 +4,7 @@
 /*
 /*  Functions related to:
 /*		Fast fourier Transformatiom,
+/*      Inverse DFT,
 /*		Basic print functions for cv::Mat,
 /*		Functions for retriving Complex or Real part of a cv::Mat.
 /*
@@ -38,6 +39,7 @@ class matSupport
 
 		cv::Mat converToRealNumbers( cv::Mat );
 
+		void inverseDFT(const cv::Mat , cv::Mat& , int , int );
 	
 };
 

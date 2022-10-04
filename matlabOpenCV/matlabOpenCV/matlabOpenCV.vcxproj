@@ -133,7 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="matDiff.cpp" />
-    <ClCompile Include="matDifferentiator.cpp" />
+    <ClCompile Include="matDifferentiate.cpp" />
     <ClCompile Include="matlabOpenCV.cpp" />
     <ClCompile Include="matStack.cpp" />
     <ClCompile Include="matSupport.cpp" />

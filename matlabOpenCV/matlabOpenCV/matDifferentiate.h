@@ -43,6 +43,11 @@ class matDifferentiate : public matStack, matDiff
 		void iterateMat();
 
 		void subIterationOne();
+		void subIterationTwo();
+		void subIterationThree();
+		void subIterationFour();
+		void subIterationFive();
+		void subIterationSix();
 };
 
 #endif

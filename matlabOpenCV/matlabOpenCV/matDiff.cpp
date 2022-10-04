@@ -4,6 +4,7 @@ matDiff::matDiff()
 {
 }
 
+
 cv::Mat matDiff::forwardDiffFunction(cv::Mat img, int step, int dim, const int framesCount)
 {
     int width = img.cols;

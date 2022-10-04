@@ -14,7 +14,10 @@ matStack::matStack( std::string filename, std::string printfile):
 
 }
 
-
+/*
+// Initialize the variables
+// Basic configurations of the imgS and frac cv::Mats
+*/
 
 void matStack::initialize()
 {
@@ -63,6 +66,9 @@ void matStack::initialize()
 	std::cout << " Max Value from class = " << tempVal << std::endl;
 }
 
+/*
+// Calculate the DFT of difference operator
+*/
 void matStack::diffOperatorFFT()
 {
 	float data[3] = { 1, -2, 1 };
