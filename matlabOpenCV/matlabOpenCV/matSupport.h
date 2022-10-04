@@ -40,6 +40,8 @@ class matSupport
 		cv::Mat converToRealNumbers( cv::Mat );
 
 		void inverseDFT(const cv::Mat , cv::Mat& , int , int );
+
+		std::string type2str(int );
 	
 };
 

@@ -78,7 +78,7 @@ void matDifferentiate::iterateMat()
 		subIterationFour();
 		subIterationFive();
 		subIterationSix();
-		printImageMatStack(writePath, frac);
+		printImageMat(writePath, frac);
 	}
 
 

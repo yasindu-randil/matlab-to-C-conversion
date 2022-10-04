@@ -8,7 +8,7 @@
 typedef cv::Point_<uchar> Pixel;
 
 
-class matDifferentiate : public matStack, matDiff
+class matDifferentiate : protected matStack, matDiff
 {
 	public:
 

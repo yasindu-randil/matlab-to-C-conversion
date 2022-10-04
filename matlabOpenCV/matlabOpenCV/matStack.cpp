@@ -157,7 +157,7 @@ void matStack::printImageMat(std::string printfile, const cv::Mat img)
 	myfile.close();
 }
 
-void matStack::printImageMatStack(std::string printfile, std::vector<cv::Mat> img)
+void matStack::printImageMat(std::string printfile, std::vector<cv::Mat> img)
 {
 	std::ofstream myfile;
 	myfile.open(printfile, std::ios::out | std::ios::binary);

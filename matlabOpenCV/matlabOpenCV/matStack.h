@@ -32,7 +32,7 @@ class matStack : public matSupport
 
 		cv::Mat divide;
 
-	public:
+	protected:
 
 		int zbei;
 		int siranu;
@@ -42,14 +42,17 @@ class matStack : public matSupport
 		int height;
 		int frames;
 
+	public:
 		matStack(std::string, std::string );
 
 		std::vector<cv::Mat> getVectorFrac();
 		std::vector<cv::Mat> getVectorImg();
 		
+		// Overloaded functions 
+
 		void printImageMat(std::string, const cv::Mat);
 		
-		void printImageMatStack(std::string, std::vector<cv::Mat> img);
+		void printImageMat(std::string, std::vector<cv::Mat> img);
 
 };
 
