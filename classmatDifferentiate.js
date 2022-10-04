@@ -1,0 +1,26 @@
+var classmatDifferentiate =
+[
+    [ "Operator", "structmatDifferentiate_1_1Operator.html", "structmatDifferentiate_1_1Operator" ],
+    [ "matDifferentiate", "classmatDifferentiate.html#a3d02cb7bff3e400bb209ec418c057565", null ],
+    [ "initialize", "classmatDifferentiate.html#a83018efb11274aa7ff5084dfa1621f80", null ],
+    [ "iterateMat", "classmatDifferentiate.html#a187d5d7c1efe8e579b3d9b2e4bba8b22", null ],
+    [ "subIterationFive", "classmatDifferentiate.html#a1ca9527de3bb77444cef47d1c9beff88", null ],
+    [ "subIterationFour", "classmatDifferentiate.html#a9c7f2b43ca0936553adbeaa733c493ae", null ],
+    [ "subIterationOne", "classmatDifferentiate.html#a95a579e223446742e33da78b93fa2907", null ],
+    [ "subIterationSix", "classmatDifferentiate.html#a63ef452a8d6d2cf1ca0dc41c493d88dc", null ],
+    [ "subIterationThree", "classmatDifferentiate.html#a83c4c12ae759ae589bf25a90602b25e4", null ],
+    [ "subIterationTwo", "classmatDifferentiate.html#a077ca1572b58741aba8180c5751f6f5f", null ],
+    [ "b1", "classmatDifferentiate.html#a6853b03a6be1f757118dcea341723ecb", null ],
+    [ "b2", "classmatDifferentiate.html#a4c1bc4a3b2df122fdc452d72809efb55", null ],
+    [ "b3", "classmatDifferentiate.html#a559bf2f730df018fda71c56874c598c5", null ],
+    [ "b4", "classmatDifferentiate.html#aa1b0062f9ff855c1e2f44a169fab203b", null ],
+    [ "b5", "classmatDifferentiate.html#ab3c9bff702898c2ef064c9b369a81c10", null ],
+    [ "b6", "classmatDifferentiate.html#a0a2106962678d5a5cb1072b0db11cbed", null ],
+    [ "d", "classmatDifferentiate.html#ac21a59d3969e022509f9a8498bb17ee3", null ],
+    [ "frac", "classmatDifferentiate.html#a6d352e1c64e9e2a05d1600b2856fcc73", null ],
+    [ "imgD", "classmatDifferentiate.html#af3f162ad9b56d7bf2bc749b402e389af", null ],
+    [ "signd", "classmatDifferentiate.html#a2d3aaaa88f3d3c61688c57468f9a2310", null ],
+    [ "u", "classmatDifferentiate.html#a1f5e34df58871d2418c48dcbf3b50e5c", null ],
+    [ "writePath", "classmatDifferentiate.html#a572643a832418c7f66dafe9a6bdbfcd4", null ],
+    [ "x", "classmatDifferentiate.html#a8c8e4b467aa6c018133c7991cd65b73a", null ]
+];
